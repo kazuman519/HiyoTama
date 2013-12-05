@@ -12,6 +12,7 @@
 #import "Hiyo.h"
 
 @interface DetailsView : UIView {
+    GameData *gameData_;
     UIView *view_;
     UIImageView *bgView_;
 }

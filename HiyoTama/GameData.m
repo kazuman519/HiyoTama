@@ -26,11 +26,13 @@ static GameData* _gameDataInstance = nil;
         
         // 値の初期化
         gameDataDefaults_ = [NSUserDefaults standardUserDefaults];
+        gameVersionKey_ = @"NOW_VERSION";
         staminaKey_ = @"STAMINA";
         setTimeKey_ = @"SET_TIME";
         highScoreKey_ = @"HIGH_SCORE";
+        firstCheckHiyoKey_ = @"FIRST_CHECK_HIYO";
         maxStamina_ = 60;
-        recoveryTime_ = 3*60;
+        recoveryTime_ = 0.5*60;
         useStaminaValue_ = 3;
         gameTime_ = 10.0f;
         feverEggProbability_ = 0.01f;
@@ -62,7 +64,11 @@ static GameData* _gameDataInstance = nil;
             NSLog(@"初期時刻 -> %@", initDate);
             [inputDateFormatter release];
         }
+        // バージョンによる初期起動チェック
+        [self checkUpdateVersion];
+        
         NSLog(@"GameData Init");
+        
     }
     return self;
 }
@@ -107,12 +113,6 @@ static GameData* _gameDataInstance = nil;
     }
     [db close];
     
-    float proSum = 0.0f;
-    for (NSNumber *proNum in self.probabilityArray){
-        proSum += proNum.floatValue;
-        NSLog(@"pro %f",proNum.floatValue);
-    }
-    NSLog(@"ごうけいはこれだ！ %f",proSum);
 }
 
 // データベースに1ゲームででた卵の数を登録する
@@ -280,6 +280,9 @@ static GameData* _gameDataInstance = nil;
 }
 
 // セットするメソッド
+-(void)setGameVersion:(float)version{
+    [gameDataDefaults_ setObject:[NSNumber numberWithFloat:version] forKey:gameVersionKey_];
+}
 -(void)setNowTime{
     NSDate *date = [NSDate date];
     [gameDataDefaults_ setObject:date forKey:setTimeKey_];
@@ -297,6 +300,21 @@ static GameData* _gameDataInstance = nil;
 }
 -(void)setCheckRareLevel:(int)rare{
     checkRareLevel_ = rare;
+}
+-(void)setFirstCheckHiyoNum:(int)number{
+    NSMutableArray *array = [NSMutableArray array];
+    int nowNum = 1;
+    for (NSNumber *isFirst in [self getFirstCheckHiyoNumArray]){
+        if (nowNum == number) {
+            [array addObject:[NSNumber numberWithBool:YES]];
+            
+        }
+        else{
+            [array addObject:isFirst];
+        }
+        nowNum++;
+    }
+    [gameDataDefaults_ setObject:array forKey:firstCheckHiyoKey_];
 }
 
 // 加えるメソッド
@@ -319,6 +337,10 @@ static GameData* _gameDataInstance = nil;
 }
 
 // 取得するメソッド
+-(float)getGameVersion{
+    NSNumber *num = [gameDataDefaults_ objectForKey:gameVersionKey_];
+    return num.floatValue;
+}
 -(NSDate*)getSetTime{
     NSDate *date = [gameDataDefaults_ objectForKey:setTimeKey_];
     return date;
@@ -372,10 +394,34 @@ static GameData* _gameDataInstance = nil;
 -(int)getCheckRareLevel{
     return checkRareLevel_;
 }
+-(BOOL)getIsFirstCheckHiyo:(int)number{
+    NSMutableArray *array = [gameDataDefaults_ objectForKey:firstCheckHiyoKey_];
+    NSNumber *isFirst = [array objectAtIndex:number-1];
+    return isFirst.boolValue;
+}
 -(NSMutableArray*)getProbabilityArray{
     return self.probabilityArray;
 }
 -(NSMutableArray*)getEggSumArray{
     return self.eggSumArray;
+}
+-(NSMutableArray*)getFirstCheckHiyoNumArray{
+    NSMutableArray *array = [gameDataDefaults_ objectForKey:firstCheckHiyoKey_];
+    return array;
+}
+
+// 新しいアップデートがあるかちぇっく
+-(void)checkUpdateVersion{
+    // ver1.0
+    if ([self getGameVersion] < 1.0) {
+        [self setGameVersion:1.0];
+        // ０番には既に入れておく
+        NSMutableArray *array = [NSMutableArray array];
+        for (int i=0; i < [self getProbabilityArray].count; i++){
+            [array addObject:[NSNumber numberWithBool:NO]];
+        }
+        [gameDataDefaults_ setObject:array forKey:firstCheckHiyoKey_];
+    }
+    [self setFirstCheckHiyoNum:4];
 }
 @end

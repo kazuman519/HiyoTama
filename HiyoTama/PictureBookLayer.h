@@ -22,5 +22,5 @@
 
 // 指定したレア度のひよの番号が入っている配列
 @property (nonatomic, retain) NSMutableArray *hiyoNumberArray;
-
+@property (nonatomic, retain) NSMutableArray *labelArray;
 @end

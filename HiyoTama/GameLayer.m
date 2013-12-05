@@ -64,8 +64,16 @@ enum {
     GameData *gameData = [GameData getInstance];
     
     // 背景
-    CCLayerColor *colorLayer = [CCLayerColor layerWithColor:ccc4(0, 0, 0, 120)];
-    [self addChild:colorLayer];
+    NSString *spriteName = [NSString string];
+    if (winSize_.width == 568) {
+        spriteName = @"gameBg-568h@2x.png";
+    }else{
+        spriteName = @"gameBg.png";
+    }
+    CCSprite *bgSprite = [CCSprite spriteWithFile:spriteName];
+    bgSprite.position = ccp(winSize_.width * 0.5, winSize_.height * 0.5)
+    ;
+    [self addChild:bgSprite];
     
     // タイマー
     CCSprite *timerSprite = [CCSprite spriteWithFile:@"timerImage.png"];

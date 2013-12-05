@@ -58,6 +58,25 @@
         }];
         btnItem.position = ccp(winSize.width/2 - btnItem.contentSize.width/2 + (btnItem.contentSize.width*1.02 * ((i-1) % 2)), winSize.height * 0.7 - (btnItem.contentSize.height * ((i-1) / 2)));
         [menu_ addChild:btnItem];
+        
+        // ------ 未確認済みのひよがいるかチェック ------
+        BOOL isNewHiyo = NO;
+        for (NSNumber *hiyoNum in [gameData getHiyoNumberArrayAppointRare:i]){
+            if ([gameData getHiyoSumAppointNumber:hiyoNum.intValue] > 0 && ![gameData getIsFirstCheckHiyo:hiyoNum.intValue]) {
+                isNewHiyo = YES;
+            }
+        }
+        if (isNewHiyo) {
+            // NEW!ラベルをはる
+            CCLabelTTF *newLabel = [CCLabelTTF labelWithString:@"NEW!" fontName:@"Marker Felt" fontSize:28];
+            newLabel.rotation = 30;
+            newLabel.color = ccRED;
+            newLabel.position = ccp(btnItem.position.x + btnItem.contentSize.width*0.4, btnItem.position.y + btnItem.contentSize.height*0.3);
+            [self addChild:newLabel];
+            
+            id jumpBy = [CCJumpBy actionWithDuration:60 position:ccp(0, 0) height:winSize.height*0.05 jumps:60];
+            [newLabel runAction:jumpBy];
+        }
     }
     
     // 戻るボタン

@@ -13,6 +13,8 @@
 -(id)init{
     if (self = [super init]) {
         CGSize winSize = [[CCDirector sharedDirector]winSize];
+        gameData_ = [GameData getInstance];
+        
         view_ = [[UIView alloc]
                         initWithFrame:CGRectMake(0, 0, winSize.width, winSize.height)];
         [[[CCDirector sharedDirector] view] addSubview:view_];
@@ -64,15 +66,16 @@
     numLabel.text = [NSString stringWithFormat:@"%d",hiyoNum];
     numLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
     numLabel.textColor = [UIColor whiteColor];
-    numLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    numLabel.backgroundColor = [UIColor clearColor];
     [view_ addSubview:numLabel];
     
     // 名前
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bgView_.center.x + bgView_.image.size.width*0.1, bgView_.center.y - bgView_.image.size.height * 0.45, 100, 25)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bgView_.center.x + bgView_.image.size.width*0.08, bgView_.center.y - bgView_.image.size.height * 0.45, 100, 25)];
     nameLabel.text = [hiyo getName];
     nameLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:25];
     nameLabel.textColor = [UIColor blackColor];
-    nameLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    nameLabel.adjustsFontSizeToFitWidth = YES;
+    nameLabel.backgroundColor = [UIColor clearColor];
     [view_ addSubview:nameLabel];
     
     // レア度
@@ -81,7 +84,7 @@
     rareLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:22];
     rareLabel.textAlignment = UITextAlignmentCenter;
     rareLabel.textColor = [UIColor blackColor];
-    rareLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    rareLabel.backgroundColor = [UIColor clearColor];
     [view_ addSubview:rareLabel];
     
     // 捕獲数
@@ -90,15 +93,23 @@
     sumLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:22];
     sumLabel.textAlignment = UITextAlignmentCenter;
     sumLabel.textColor = [UIColor blackColor];
-    sumLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    sumLabel.backgroundColor = [UIColor clearColor];
     [view_ addSubview:sumLabel];
     
     // 説明文
-    UILabel *explLabel = [[UILabel alloc] initWithFrame:CGRectMake(bgView_.center.x + bgView_.image.size.width*0.05, bgView_.center.y + bgView_.image.size.height * 0.1, 100, 25)];
+    UILabel *explLabel = [[UILabel alloc] initWithFrame:CGRectMake(bgView_.center.x + bgView_.image.size.width*0.05, bgView_.center.y + bgView_.image.size.height * 0.1, 110, 0)];
     explLabel.text = [hiyo getExpalanation];
-    explLabel.font = [UIFont fontWithName:@"Helvetica" size:18];
+    explLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
     explLabel.textColor = [UIColor blackColor];
-    explLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    explLabel.numberOfLines = 3;
+    explLabel.lineBreakMode  = NSLineBreakByCharWrapping;
+    explLabel.backgroundColor = [UIColor clearColor];
+    [explLabel sizeToFit];
     [view_ addSubview:explLabel];
+    
+    // NEWがついていたばあいみたことにする
+    if (![gameData_ getIsFirstCheckHiyo:hiyoNum]) {
+        [gameData_ setFirstCheckHiyoNum:hiyoNum];
+    }
 }
 @end

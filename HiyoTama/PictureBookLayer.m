@@ -19,6 +19,7 @@
         
         // 初期化
         self.hiyoNumberArray = [gameData_ getHiyoNumberArrayAppointRare:[gameData_ getCheckRareLevel]];
+        self.labelArray = [NSMutableArray array];
         
         // レイヤーの初期化
         [self initLayer];
@@ -82,7 +83,7 @@
     sumLabel.font = [UIFont fontWithName:@"Marker Felt" size:28];
     sumLabel.textAlignment = UITextAlignmentRight;
     sumLabel.textColor = [UIColor blackColor];
-    sumLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    sumLabel.backgroundColor = [UIColor clearColor];
     [scrollView_ addSubview:sumLabel];
     
     // 戻るボタン
@@ -145,6 +146,25 @@
                       action:@selector(touchHiyoAcriton:)
             forControlEvents:UIControlEventTouchUpInside];
         [scrollView_ addSubview:hiyoBtn];
+        
+        NSString *labelString = [NSString string];
+        if (![gameData_ getIsFirstCheckHiyo:num.intValue] && [gameData_ getHiyoSumAppointNumber:num.intValue] > 0) {
+            // 確認していないひよにはNEWをつける
+            labelString = @"NEW!!";
+        }
+        else{
+            labelString = @"";
+        }
+        UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(hiyoBtn.center.x - winSize_.height*0.125, hiyoBtn.center.y - winSize_.height*0.14, 80, 25)];
+        newLabel.text = labelString;
+        newLabel.font = [UIFont fontWithName:@"Marker Felt" size:20];
+        newLabel.textAlignment = UITextAlignmentRight;
+        newLabel.textColor = [UIColor redColor];
+        newLabel.backgroundColor = [UIColor clearColor];
+        newLabel.transform = CGAffineTransformMakeRotation(0.3);
+        [scrollView_ addSubview:newLabel];
+        [self.labelArray addObject:newLabel];
+        
         i++;
     }
 }
@@ -152,6 +172,12 @@
     UIButton *btn = sender;
     DetailsView *detailsView = [[DetailsView alloc] init];
     [detailsView setDetails:btn.tag];
+    
+    NSNumber *firstNum = [self.hiyoNumberArray objectAtIndex:0];
+    NSLog(@"%d",firstNum.intValue);
+    int labelIndex =btn.tag - firstNum.intValue;
+    UILabel *label = [self.labelArray objectAtIndex:labelIndex];
+    label.text = @"";
 }
 
 @end

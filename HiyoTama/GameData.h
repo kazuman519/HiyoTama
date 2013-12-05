@@ -14,9 +14,11 @@
 @interface GameData : CCNode {
     @private
     NSUserDefaults *gameDataDefaults_;
+    NSString *gameVersionKey_;
     NSString *staminaKey_;
     NSString *setTimeKey_;
     NSString *highScoreKey_;
+    NSString *firstCheckHiyoKey_;
     
     int maxStamina_;
     int recoveryTime_;
@@ -43,17 +45,20 @@
 
 -(void)resetGameData;
 
+-(void)setGameVersion:(float)version;
 -(void)setNowTime;
 -(void)setStamina:(int)stamina;
 -(void)setSetTime:(NSDate*)date;
 -(void)setHighScore:(int)score;
 -(void)setCheckRareLevel:(int)rare;
+-(void)setFirstCheckHiyoNum:(int)number;
 
 -(void)addScore:(int)score;
 -(void)addEggSumArray:(int)number;
 
 -(void)useStamina;
 
+-(float)getGameVersion;
 -(NSDate*)getSetTime;
 -(int)getStamina;
 -(int)getMaxStamina;
@@ -64,6 +69,7 @@
 -(int)getScore;
 -(int)getHighScore;
 -(int)getCheckRareLevel;
+-(BOOL)getIsFirstCheckHiyo:(int)number;
 -(NSMutableArray*)getProbabilityArray;
 -(NSMutableArray*)getEggSumArray;
 

@@ -40,6 +40,7 @@
 {
 	if( (self=[super init])) {
         // ゲームデータを読み込む
+        NSLog(@"ここかああああ");
         [GameData getInstance];
 
 		// ask director for the window size
@@ -57,6 +58,17 @@
 
 		// add the label as a child to this Layer
 		[self addChild: background];
+        
+        NSString *spriteName = [NSString string];
+        if (size.width == 568) {
+            spriteName = @"gameBg-568h@2x.png";
+        }else{
+            spriteName = @"gameBg.png";
+        }
+        CCSprite *bgSprite = [CCSprite spriteWithFile:spriteName];
+        bgSprite.position = ccp(size.width * 0.5, size.height * 0.5)
+        ;
+        [self addChild:bgSprite];
 	}
 	
 	return self;
