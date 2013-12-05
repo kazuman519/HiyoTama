@@ -45,30 +45,19 @@
 
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-
+        
 		CCSprite *background;
 		
 		if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ) {
-			background = [CCSprite spriteWithFile:@"Default.png"];
-			background.rotation = 90;
+			background = [CCSprite spriteWithFile:@"Default-568h@2x.png"];
+			background.rotation = 0;
 		} else {
 			background = [CCSprite spriteWithFile:@"Default-Landscape~ipad.png"];
 		}
 		background.position = ccp(size.width/2, size.height/2);
-
+        
 		// add the label as a child to this Layer
 		[self addChild: background];
-        
-        NSString *spriteName = [NSString string];
-        if (size.width == 568) {
-            spriteName = @"gameBg-568h@2x.png";
-        }else{
-            spriteName = @"gameBg.png";
-        }
-        CCSprite *bgSprite = [CCSprite spriteWithFile:spriteName];
-        bgSprite.position = ccp(size.width * 0.5, size.height * 0.5)
-        ;
-        [self addChild:bgSprite];
 	}
 	
 	return self;

@@ -23,7 +23,7 @@
     int sum_;
     NSString *explanation_;
     
-    CCLabelTTF* newLabel_;
+    CCSprite* newSprite_;
 }
 
 -(void)setStatus:(int)number;

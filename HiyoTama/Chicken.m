@@ -9,6 +9,9 @@
 #import "Chicken.h"
 
 @implementation Chicken
+
+@synthesize isTouch = isTouch_;
+
 enum {
     OBJECT_NULL,
     OBJECT_EGG,
@@ -25,6 +28,7 @@ enum {
         
         // 値の初期化
         scale_ = 0.8;
+        isTouch_ = NO;
         isFever_ = NO;
         isTouchEnabled_ = NO;
         feverEggProbability_ = [gameData_ getFeverEggProbability];
@@ -248,12 +252,15 @@ enum {
     // にわとりをタッチしたとき
     if (CGRectContainsPoint(sprite_.boundingBox, location) && isTouchEnabled_){
         [self layEggAction];
+        isTouch_ = YES;
+        
         if (isFever_) {
             id delay = [CCDelayTime actionWithDuration:0.05];
             id func = [CCCallFunc actionWithTarget:self selector:@selector(layEggAction)];
             id sequence = [CCSequence actions:delay, func, nil];
             [self runAction:sequence];
         }
+        isBlock = YES;
     }
     
     // 卵をタッチしたとき
@@ -275,6 +282,7 @@ enum {
 }
 // タッチ終了
 -(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event{
+    isTouch_ = NO;
 }
 
 // フィーバーパーティクル

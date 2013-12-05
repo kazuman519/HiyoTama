@@ -12,8 +12,7 @@
 @interface Egg : CCNode {
     CGSize winSize_;
     
-    CCLabelTTF *touchLabel_;
-    CCLabelTTF *efectLabel_;
+    CCSprite *touchSprite_;
     
     CCParticleSystemQuad *feverEggPS;
 }

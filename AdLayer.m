@@ -35,7 +35,7 @@
         
         // AdMob設定
         _gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
-        _gadView.adUnitID = @"a151b57c78a7c00";
+        _gadView.adUnitID = @"a1525797a164cbc";
         _gadView.rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
         [[[CCDirector sharedDirector] view] addSubview:_gadView];
         _gadView.frame = CGRectOffset(_gadView.frame, -50, winSize.height);

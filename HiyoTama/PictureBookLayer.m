@@ -121,7 +121,7 @@
         // ひよをボタン化
         UIButton *hiyoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         NSString *hiyoImgName = [NSString string];
-        if ([gameData_ getHiyoSumAppointNumber:num.intValue] > 0) {
+        if ([gameData_ getHiyoSumAppointNumber:num.intValue] >= 0) {
             hiyoImgName = [NSString stringWithFormat:@"hiyo%d.png",num.intValue];
         }
         else{

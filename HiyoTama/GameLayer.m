@@ -14,6 +14,7 @@ enum {
     OBJECT_CHICKEN,
     OBJECT_TIMER,
     OBJECT_SCORE,
+    OBJECT_TOUCH,
     OBJECT_NOTIFY
 };
 
@@ -26,6 +27,7 @@ enum {
         
         gameTime_ = [gameData_ getGameTime];
         isGameEnd_ = NO;
+        isShowTouch_ = YES;
         
         [self initLayer];
         
@@ -87,12 +89,24 @@ enum {
     timerLabel_.position = ccp(timerSprite.position.x + timerSprite.contentSize.width*0.5, timerSprite.position.y - timerSprite.contentSize.height*0.2);
     [self addChild:timerLabel_];
     
+    // タッチ
+    touchSprite_ = [CCSprite spriteWithFile:@"touchImage.png"];
+    touchSprite_.anchorPoint = ccp(0.5, 0);
+    touchSprite_.position = ccp(chicken_.position.x + winSize_.height*0.25, chicken_.position.y + winSize_.height*0.7);
+    touchSprite_.scale = 0.7;
+    [self addChild:touchSprite_ z:OBJECT_TOUCH tag:OBJECT_TOUCH];
+    [self jumpAction:touchSprite_];
+    
     // スコアを表示するラベル
     scoreLabel_ = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%dコ",[gameData getScore]] fontName:@"Marker Felt" fontSize:25];
     //scoreLabel_.color = ccBLACK;
     scoreLabel_.anchorPoint = ccp(1.0,1.0);
     scoreLabel_.position = ccp(winSize_.width, winSize_.height);
     [self addChild:scoreLabel_ z:OBJECT_SCORE tag:OBJECT_SCORE];
+}
+-(void)jumpAction:(CCNode*)node{
+    id jumpBy = [CCJumpBy actionWithDuration:10 position:ccp(0, 0) height:20 jumps:30];
+    [node runAction:jumpBy];
 }
 
 // ----- ゲーム制御部分　-----
@@ -170,6 +184,10 @@ enum {
     GameData *gameData = [GameData getInstance];
     
     [scoreLabel_ setString:[NSString stringWithFormat:@"%dコ",[gameData getScore]]];
+    
+    if (chicken_.isTouch) {
+       NSLog(@"unkooo");
+    }
 }
 
 // タイマーを動かすメソッド
@@ -183,6 +201,17 @@ enum {
             [self gameEnd];
         }
         [timerLabel_ setString:[NSString stringWithFormat:@"%2.1f",gameTime_]];
+    }
+    if (chicken_.isTouch && isShowTouch_) {
+        isShowTouch_ = NO;
+        // にわとりがたっちされたらタッチをけす
+        id delay = [CCDelayTime actionWithDuration:0.2];
+        id block = [CCCallBlock actionWithBlock:^{
+            [touchSprite_ stopAllActions];
+            id scaleTo = [CCScaleTo actionWithDuration:0.4 scale:0];
+            [touchSprite_ runAction:scaleTo];
+        }];
+        [self runAction:[CCSequence actions:delay, block, nil]];
     }
 }
 

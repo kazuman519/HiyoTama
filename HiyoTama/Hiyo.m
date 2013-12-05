@@ -76,15 +76,15 @@
 
 // Newを表示する
 -(void)setNewLabel{
-    newLabel_ = [CCLabelTTF labelWithString:@"NEW!!" fontName:@"Marker Felt" fontSize:22];
-    newLabel_.color = ccRED;
-    newLabel_.position = ccp(sprite_.position.x, sprite_.position.y + sprite_.contentSize.height * 1.5);
-    [self addChild:newLabel_];
+    newSprite_ = [CCSprite spriteWithFile:@"newImage.png"];
+    newSprite_.scale = 0.5;
+    newSprite_.position = ccp(sprite_.position.x, sprite_.position.y + sprite_.contentSize.height * 1.5);
+    [self addChild:newSprite_];
     
     [self schedule:@selector(updateNewLabelPosition)];
 }
 // ラベルの座標を更新
 -(void)updateNewLabelPosition{
-    newLabel_.position = ccp(sprite_.position.x, newLabel_.position.y);
+    newSprite_.position = ccp(sprite_.position.x, newSprite_.position.y);
 }
 @end

@@ -34,28 +34,20 @@
 }
 // タッチ文字を表示
 -(void)setTouchLabel{
-    touchLabel_ = [CCLabelTTF labelWithString:@"たっち！\n↓" fontName:@"Helvetica-Bold" fontSize:30];
-    efectLabel_ = [CCLabelTTF labelWithString:@"たっち！\n↓" fontName:@"Helvetica-Bold" fontSize:30];
-    touchLabel_.position = ccp(-touchLabel_.contentSize.width, -touchLabel_.contentSize.height);
-    efectLabel_.position = ccp(-touchLabel_.contentSize.width, -touchLabel_.contentSize.height);
-    touchLabel_.color = ccRED;
-    efectLabel_.color = ccc3(61, 18, 18);
-    [self addChild:efectLabel_];
-    [self addChild:touchLabel_];
+    touchSprite_ = [CCSprite spriteWithFile:@"touchImage.png"];
+    touchSprite_.position = ccp(-touchSprite_.contentSize.width, -touchSprite_.contentSize.height);
+    [self addChild:touchSprite_];
     
     [self schedule:@selector(labelPositionUpdate)];
 }
 -(void)labelPositionUpdate{
-    touchLabel_.position = ccp(self.sprite.position.x, self.sprite.position.y + self.sprite.contentSize.height);
-    efectLabel_.position = ccp(self.sprite.position.x + efectLabel_.fontSize*0.1, self.sprite.position.y + self.sprite.contentSize.height - efectLabel_.fontSize*0.1);
+    touchSprite_.position = ccp(self.sprite.position.x, self.sprite.position.y + self.sprite.contentSize.height);
 }
 
 // フィーバーエッグをタッチしたとき
 -(void)touchFeverEgg{
     [self unschedule:@selector(labelPositionUpdate)];
-    [self removeChild:touchLabel_];
-    [self removeChild:efectLabel_];
-    
+    [self removeChild:touchSprite_];
 }
 
 // 右に転がっていく

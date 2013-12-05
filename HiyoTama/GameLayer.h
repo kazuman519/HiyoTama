@@ -19,10 +19,12 @@
     
     CCLabelTTF *timerLabel_;
     CCLabelTTF *scoreLabel_;
+    CCSprite *touchSprite_;
     Chicken *chicken_;
     float gameTime_;
     
     BOOL isGameEnd_;
+    BOOL isShowTouch_;
     
     AdLayer *adLayer_;
 }

@@ -18,6 +18,7 @@
     GameData *gameData_;
     CCSprite* sprite_;
     float scale_;
+    BOOL isTouch_;
     BOOL isFever_;
     BOOL isTouchEnabled_;
     
@@ -29,6 +30,7 @@
     CCParticleSystemQuad *feverPs;
 }
 @property (nonatomic,retain) NSMutableArray* eggArray;
+@property BOOL isTouch;
 
 -(void)setGameMode;
 -(void)setResultMode;

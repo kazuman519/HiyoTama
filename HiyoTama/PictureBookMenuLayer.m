@@ -61,9 +61,13 @@
         
         // ------ 未確認済みのひよがいるかチェック ------
         BOOL isNewHiyo = NO;
+        int getHiyoNum = 0;
         for (NSNumber *hiyoNum in [gameData getHiyoNumberArrayAppointRare:i]){
-            if ([gameData getHiyoSumAppointNumber:hiyoNum.intValue] > 0 && ![gameData getIsFirstCheckHiyo:hiyoNum.intValue]) {
-                isNewHiyo = YES;
+            if ([gameData getHiyoSumAppointNumber:hiyoNum.intValue] > 0) {
+                if (![gameData getIsFirstCheckHiyo:hiyoNum.intValue]) {
+                    isNewHiyo = YES;
+                }
+                getHiyoNum++;
             }
         }
         if (isNewHiyo) {
@@ -76,6 +80,14 @@
             
             id jumpBy = [CCJumpBy actionWithDuration:60 position:ccp(0, 0) height:winSize.height*0.05 jumps:60];
             [newLabel runAction:jumpBy];
+        }
+        // コンプリートがいるかチェック
+        if ([gameData getHiyoNumberArrayAppointRare:i].count == getHiyoNum) {
+            CCLabelTTF* completeLabel = [CCLabelTTF labelWithString:@"COMPLETE" fontName:@"Marker Felt" fontSize:28];
+            completeLabel.rotation = 20;
+            completeLabel.color = ccRED;
+            completeLabel.position = ccp(btnItem.position.x + btnItem.contentSize.width*0.2, btnItem.position.y + btnItem.contentSize.height*0.3);
+            [self addChild:completeLabel];
         }
     }
     
