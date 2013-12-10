@@ -54,9 +54,8 @@
             
             [gameData setCheckRareLevel:i];
             [[CCDirector sharedDirector] replaceScene:[PictureBookLayer node]];
-            NSLog(@"%d",i);
         }];
-        btnItem.position = ccp(winSize.width/2 - btnItem.contentSize.width/2 + (btnItem.contentSize.width*1.02 * ((i-1) % 2)), winSize.height * 0.7 - (btnItem.contentSize.height * ((i-1) / 2)));
+        btnItem.position = ccp(winSize.width/2 - btnItem.contentSize.width*0.57 + (btnItem.contentSize.width*1.17 * ((i-1) % 2)), winSize.height * 0.7 - (btnItem.contentSize.height * ((i-1) / 2)));
         [menu_ addChild:btnItem];
         
         // ------ 未確認済みのひよがいるかチェック ------
@@ -70,24 +69,25 @@
                 getHiyoNum++;
             }
         }
+        // コンプリートがいるかチェック
+        bool afe = YES;
+        if (afe) {
+            CCSprite *completeSprite = [CCSprite spriteWithFile:@"completeImage.png"];
+            completeSprite.rotation = -10;
+            completeSprite.scale = 0.5;
+            completeSprite.position = ccp(btnItem.position.x - btnItem.contentSize.width*0.25, btnItem.position.y + btnItem.contentSize.height*0.25);
+            [self addChild:completeSprite];
+        }
         if (isNewHiyo) {
             // NEW!ラベルをはる
-            CCLabelTTF *newLabel = [CCLabelTTF labelWithString:@"NEW!" fontName:@"Marker Felt" fontSize:28];
-            newLabel.rotation = 30;
-            newLabel.color = ccRED;
-            newLabel.position = ccp(btnItem.position.x + btnItem.contentSize.width*0.4, btnItem.position.y + btnItem.contentSize.height*0.3);
-            [self addChild:newLabel];
+            CCSprite *newSprite = [CCSprite spriteWithFile:@"newImage2.png"];
+            newSprite.rotation = 0;
+            newSprite.scale = 0.8;
+            newSprite.position = ccp(btnItem.position.x + btnItem.contentSize.width*0.4, btnItem.position.y + btnItem.contentSize.height*0.25);
+            [self addChild:newSprite];
             
             id jumpBy = [CCJumpBy actionWithDuration:60 position:ccp(0, 0) height:winSize.height*0.05 jumps:60];
-            [newLabel runAction:jumpBy];
-        }
-        // コンプリートがいるかチェック
-        if ([gameData getHiyoNumberArrayAppointRare:i].count == getHiyoNum) {
-            CCLabelTTF* completeLabel = [CCLabelTTF labelWithString:@"COMPLETE" fontName:@"Marker Felt" fontSize:28];
-            completeLabel.rotation = 20;
-            completeLabel.color = ccRED;
-            completeLabel.position = ccp(btnItem.position.x + btnItem.contentSize.width*0.2, btnItem.position.y + btnItem.contentSize.height*0.3);
-            [self addChild:completeLabel];
+            [newSprite runAction:jumpBy];
         }
     }
     

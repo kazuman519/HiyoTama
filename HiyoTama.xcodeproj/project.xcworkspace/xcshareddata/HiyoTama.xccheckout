@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>296FBB2A-BAC1-41AE-AF47-26C1EF626FB9</string>
+	<key>IDESourceControlProjectName</key>
+	<string>HiyoTama</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>07EE2E52-88BE-4A9F-A1EB-C50AB4A25FB3</key>
+		<string>ssh://github.com/kazuman519/HiyoTama.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>HiyoTama.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>07EE2E52-88BE-4A9F-A1EB-C50AB4A25FB3</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/kazuman519/HiyoTama.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>07EE2E52-88BE-4A9F-A1EB-C50AB4A25FB3</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>07EE2E52-88BE-4A9F-A1EB-C50AB4A25FB3</string>
+			<key>IDESourceControlWCCName</key>
+			<string>HiyoTama</string>
+		</dict>
+	</array>
+</dict>
+</plist>
