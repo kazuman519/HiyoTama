@@ -67,11 +67,27 @@
     return explanation_;
 }
 
-
+// ひだりに歩いていく
 -(void)moveLeftAction{
     sprite_.position = ccp(winSize_.width + sprite_.contentSize.width, 50);
     id jumpTo = [CCJumpTo actionWithDuration:2.5 position:ccp(- sprite_.contentSize.width, 50) height:winSize_.height*0.1 jumps:30];
     [sprite_ runAction:jumpTo];
+    
+    [self twitterAction];
+}
+-(void)twitterAction{
+    NSMutableArray *actionArray = [NSMutableArray array];
+    
+    for (int i = 0; i < 5 ; i++) {
+        id block = [CCCallBlock actionWithBlock:^{
+            [[SimpleAudioEngine sharedEngine] playEffect:@"piyo.mp3"];
+        }];
+        id delay = [CCDelayTime actionWithDuration:0.5];
+        [actionArray addObject:block];
+        [actionArray addObject:delay];
+    }
+    CCSequence *sequence = [CCSequence actionWithArray:actionArray];
+    [self runAction:sequence];
 }
 
 // Newを表示する

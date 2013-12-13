@@ -99,6 +99,7 @@
 }
 -(void)returnAction{
     [view_ removeFromSuperview];
+    [[SimpleAudioEngine sharedEngine] playEffect:@"return.wav"];
     [[CCDirector sharedDirector] replaceScene:[PictureBookMenuLayer node]];
 }
 
@@ -169,6 +170,7 @@
     }
 }
 -(void)touchHiyoAcriton:(id)sender{
+    [[SimpleAudioEngine sharedEngine] playEffect:@"tap.wav"];
     UIButton *btn = sender;
     DetailsView *detailsView = [[DetailsView alloc] init];
     [detailsView setDetails:btn.tag];

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "SimpleAudioEngine.h"
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
 
@@ -15,6 +16,7 @@
     @private
     NSUserDefaults *gameDataDefaults_;
     NSString *gameVersionKey_;
+    NSString *volumeKey_;
     NSString *staminaKey_;
     NSString *setTimeKey_;
     NSString *highScoreKey_;
@@ -47,6 +49,7 @@
 
 -(void)setGameVersion:(float)version;
 -(void)setNowTime;
+-(void)setVolume:(int)volume;
 -(void)setStamina:(int)stamina;
 -(void)setSetTime:(NSDate*)date;
 -(void)setHighScore:(int)score;
@@ -60,6 +63,7 @@
 
 -(float)getGameVersion;
 -(NSDate*)getSetTime;
+-(int)getVolume;
 -(int)getStamina;
 -(int)getMaxStamina;
 -(int)getUseStaminaValue;

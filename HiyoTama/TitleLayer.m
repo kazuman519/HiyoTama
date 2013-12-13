@@ -24,6 +24,7 @@
 
 -(void)initLayer{
     CGSize winSize = [[CCDirector sharedDirector] winSize];
+    GameData *gameData = [GameData getInstance];
     
     // 背景
     NSString *spriteName = [NSString string];
@@ -46,6 +47,7 @@
     // スタートボタン
     CCMenuItemSprite *startItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithFile:@"startBtn1.png"] selectedSprite:[CCSprite spriteWithFile:@"startBtn2.png"] block:^(id sender) {
         NSLog(@"START");
+        [[SimpleAudioEngine sharedEngine] playEffect:@"kokekoko.mp3"];
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[MenuLayer node] ]];
     }];
     startItem.position = ccp(winSize.width * 0.5, winSize.height * 0.46);
@@ -54,15 +56,40 @@
     CCMenuItemSprite *otherGameItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithFile:@"otherGameBtn1.png"] selectedSprite:[CCSprite spriteWithFile:@"otherGameBtn2.png"] block:^(id sender) {
         NSLog(@"OTHER GAME");
     }];
+    // まだ利用できないので色変更、たっち不可
+    otherGameItem.isEnabled = NO;
+    otherGameItem.color = ccGRAY;
     otherGameItem.position = ccp(winSize.width * 0.5, startItem.position.y - startItem.contentSize.height);
     
+    //　ボリュームボタン
+    volumeItem_ = [CCMenuItemFont itemWithString:@"おと:ON" block:^(id sender) {
+        NSLog(@"VOLUME");
+        [SimpleAudioEngine sharedEngine].backgroundMusicVolume =0;
+        [SimpleAudioEngine sharedEngine].effectsVolume = 0;
+        if ([gameData getVolume] > 0) {
+            [gameData setVolume:0];
+            [volumeItem_ setString:@"おと:OFF"];
+        }else{
+            [gameData setVolume:1];
+            [volumeItem_ setString:@"おと:ON"];
+        }
+    } ];
+    if ([gameData getVolume] == 0) {
+        [volumeItem_ setString:@"おと:OFF"];
+    }
+    volumeItem_.anchorPoint = ccp(0, 0.5);
+    volumeItem_.position = ccp(winSize.width/2 + winSize.height*0.5,volumeItem_.contentSize.height/2);
+    volumeItem_.fontSize = 20;
+    volumeItem_.fontName = @"Marker Felt";
+    
     // メニュー
-    CCMenu *menu = [CCMenu menuWithItems:startItem, otherGameItem, nil];
+    CCMenu *menu = [CCMenu menuWithItems:startItem, otherGameItem, volumeItem_,nil];
     menu.position = ccp(0, 0);
     [self addChild:menu];
 }
--(void)onEnter{
-    [super onEnter];
+-(void)onEnterTransitionDidFinish{
+    [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"titleBGM.mp3"];
+    [super onEnterTransitionDidFinish];
 }
 -(void)onExit{
     [super onExit];

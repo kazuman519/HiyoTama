@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "SimpleAudioEngine.h"
 #import "GameData.h"
 #import "Hiyo.h"
 #import "Egg.h"
@@ -30,6 +31,8 @@
     CCParticleSystemQuad *feverPs;
 }
 @property (nonatomic,retain) NSMutableArray* eggArray;
+@property (nonatomic,retain) NSMutableArray* probabilityArray;
+@property (nonatomic,retain) NSMutableArray* feverProArray;
 @property BOOL isTouch;
 
 -(void)setGameMode;

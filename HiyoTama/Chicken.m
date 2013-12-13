@@ -35,6 +35,23 @@ enum {
         feverTime_ = 0.0f;
         maxFeverTime_ = [gameData_ getMaxFeverTime];
         self.eggArray = [NSMutableArray array];
+        self.probabilityArray = [gameData_ getProbabilityArray];
+        self.feverProArray = [NSMutableArray array];
+        
+        float plusPro = 0.0f;
+        for (int i = 0; i < self.probabilityArray.count; i++) {
+            if (i > 21) {
+                // レア度3以上のひよの確率をあげる
+                NSNumber *probability = [self.probabilityArray objectAtIndex:i];
+                NSNumber *lastPro = [self.probabilityArray objectAtIndex:i-1];
+                plusPro += (probability.floatValue - lastPro.floatValue)*3;
+                float feverPro = probability.floatValue + plusPro;
+                NSLog(@"i=%d  pro=%f fever=%f",i,probability.floatValue,feverPro);
+                [self.feverProArray addObject:[NSNumber numberWithFloat:feverPro]];
+            }else{
+                [self.feverProArray addObject:[self.probabilityArray objectAtIndex:i]];
+            }
+        }
         
         // 画像の設定
         sprite_ = [CCSprite spriteWithFile:@"chicken.png"];
@@ -120,17 +137,22 @@ enum {
 
 // 卵を産むアクション
 -(void)layEggAction{
+    NSMutableArray *proArray = self.probabilityArray;
     //　スコア加算
     [gameData_ addScore:1];
     
-    NSMutableArray *probabilityArray = [gameData_ getProbabilityArray];
-    NSNumber *proNum = [probabilityArray lastObject];
+    if (isFever_) {
+        // フィーバーだった場合は確率をあげる配列を使う
+        proArray = self.feverProArray;
+    }
+    NSNumber *proNum = [proArray lastObject];
     float randomValue = CCRANDOM_0_1() * proNum.floatValue;
     float touchEggRandomValue = CCRANDOM_0_1();
     
     Egg *egg = [Egg node];
     
     if (touchEggRandomValue <= feverEggProbability_ && !isFever_) {
+        [[SimpleAudioEngine sharedEngine] playEffect:@"pon1.wav"];
         // ナンバー１が登録される
         [gameData_ addEggSumArray:1];
         [egg setFever];
@@ -138,11 +160,13 @@ enum {
         [self surpriseAction];
     }
     else{
+        [[SimpleAudioEngine sharedEngine] playEffect:@"pon2.wav"];
         int eggNumber = 1;
-        for (NSNumber *proNum in probabilityArray){
+        for (NSNumber *proNum in proArray){
             if (randomValue <= proNum.floatValue) {
                 [egg setStatus:eggNumber];
                 if ([gameData_ getHiyoRareAppointNumber:eggNumber] >= 3) {
+                    [[SimpleAudioEngine sharedEngine] playEffect:@"koke.mp3"];
                     [self surpriseAction];
                 }
                 break;
@@ -217,6 +241,7 @@ enum {
 }
 // フィーバーアクション
 -(void)feverAction{
+    [[SimpleAudioEngine sharedEngine] playEffect:@"kokekoko.mp3"];
     [sprite_ stopAllActions];
     // アニメーション
     CCAnimation *animation = [CCAnimation animation];

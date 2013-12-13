@@ -27,6 +27,7 @@ static GameData* _gameDataInstance = nil;
         // 値の初期化
         gameDataDefaults_ = [NSUserDefaults standardUserDefaults];
         gameVersionKey_ = @"NOW_VERSION";
+        volumeKey_ = @"VOLUME";
         staminaKey_ = @"STAMINA";
         setTimeKey_ = @"SET_TIME";
         highScoreKey_ = @"HIGH_SCORE";
@@ -63,6 +64,9 @@ static GameData* _gameDataInstance = nil;
             [self setSetTime:initDate];
             NSLog(@"初期時刻 -> %@", initDate);
             [inputDateFormatter release];
+            
+            // ボリュームのセット
+            [self setVolume:1];
         }
         // バージョンによる初期起動チェック
         [self checkUpdateVersion];
@@ -282,21 +286,34 @@ static GameData* _gameDataInstance = nil;
 // セットするメソッド
 -(void)setGameVersion:(float)version{
     [gameDataDefaults_ setObject:[NSNumber numberWithFloat:version] forKey:gameVersionKey_];
+    [gameDataDefaults_ synchronize];
 }
 -(void)setNowTime{
     NSDate *date = [NSDate date];
     [gameDataDefaults_ setObject:date forKey:setTimeKey_];
+    [gameDataDefaults_ synchronize];
+}
+-(void)setVolume:(int)volume{
+    NSNumber *num = [NSNumber numberWithInt:volume];
+    [gameDataDefaults_ setObject:num forKey:volumeKey_];
+    [gameDataDefaults_ synchronize];
+    
+    [SimpleAudioEngine sharedEngine].backgroundMusicVolume =volume;
+    [SimpleAudioEngine sharedEngine].effectsVolume = volume;
 }
 -(void)setStamina:(int)stamina{
     NSNumber *num = [NSNumber numberWithInt:stamina];
     [gameDataDefaults_ setObject:num forKey:staminaKey_];
+    [gameDataDefaults_ synchronize];
 }
 -(void)setSetTime:(NSDate *)date{
     [gameDataDefaults_ setObject:date forKey:setTimeKey_];
+    [gameDataDefaults_ synchronize];
 }
 -(void)setHighScore:(int)score{
     NSLog(@"setHighScore %d",score);
     [gameDataDefaults_ setInteger:score forKey:highScoreKey_];
+    [gameDataDefaults_ synchronize];
 }
 -(void)setCheckRareLevel:(int)rare{
     checkRareLevel_ = rare;
@@ -315,6 +332,7 @@ static GameData* _gameDataInstance = nil;
         nowNum++;
     }
     [gameDataDefaults_ setObject:array forKey:firstCheckHiyoKey_];
+    [gameDataDefaults_ synchronize];
 }
 
 // 加えるメソッド
@@ -344,6 +362,11 @@ static GameData* _gameDataInstance = nil;
 -(NSDate*)getSetTime{
     NSDate *date = [gameDataDefaults_ objectForKey:setTimeKey_];
     return date;
+}
+-(int)getVolume{
+    NSNumber *volumeNum = [gameDataDefaults_ objectForKey:volumeKey_];
+    NSLog(@"ぼりゅーむ%d",volumeNum.intValue);
+    return volumeNum.intValue;
 }
 -(int)getStamina{
     NSNumber* staminaNum = [gameDataDefaults_ objectForKey:staminaKey_];

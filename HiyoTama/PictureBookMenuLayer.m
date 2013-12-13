@@ -47,11 +47,10 @@
     
     // ボタン
     for (int i = 1; i <= 6; i++) {
-        
         NSString *btnString1 = [NSString stringWithFormat:@"btn%d_1.png",i];
         NSString *btnString2 = [NSString stringWithFormat:@"btn%d_2.png",i];
         CCMenuItemSprite *btnItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithFile:btnString1] selectedSprite:[CCSprite spriteWithFile:btnString2] block:^(id sender) {
-            
+            [[SimpleAudioEngine sharedEngine] playEffect:@"tap.wav"];
             [gameData setCheckRareLevel:i];
             [[CCDirector sharedDirector] replaceScene:[PictureBookLayer node]];
         }];
@@ -70,8 +69,7 @@
             }
         }
         // コンプリートがいるかチェック
-        bool afe = YES;
-        if (afe) {
+        if ([gameData getHiyoNumberArrayAppointRare:i].count == getHiyoNum) {
             CCSprite *completeSprite = [CCSprite spriteWithFile:@"completeImage.png"];
             completeSprite.rotation = -10;
             completeSprite.scale = 0.5;
@@ -96,6 +94,7 @@
         
         // ボタンを押したときのアクション
         NSLog(@"RETURN TITLE");
+        [[SimpleAudioEngine sharedEngine] playEffect:@"return.wav"];
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[MenuLayer node] ]];
     }];
     returnItem.scale = 0.8;

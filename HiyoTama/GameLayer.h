@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "SimpleAudioEngine.h"
 #import "Chicken.h"
 #import "GameData.h"
 #import "AdLayer.h"

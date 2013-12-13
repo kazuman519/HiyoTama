@@ -42,6 +42,7 @@
 
 -(void)removeAction{
     NSLog(@"kieru");
+    [[SimpleAudioEngine sharedEngine] playEffect:@"return.wav"];
     [view_ removeFromSuperview];
 }
 

@@ -62,6 +62,10 @@
         // 体力があればゲームスタート
         if ([gameData_ getStamina] >= [gameData_ getUseStaminaValue]) {
             NSLog(@"GAME PLAY");
+            [[SimpleAudioEngine sharedEngine] playEffect:@"tap.wav"];
+            [[SimpleAudioEngine sharedEngine] playEffect:@"kokekoko.mp3"];
+            [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
+            
             [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[GameLayer node] ]];
             
             [gameData_ useStamina];
@@ -75,6 +79,7 @@
         
         // ボタンを押したときのアクション
         NSLog(@"PICTURE BOOK");
+        [[SimpleAudioEngine sharedEngine] playEffect:@"tap.wav"];
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[PictureBookMenuLayer node] ]];
     }];
     pictureBookItem.position = ccp(playItem.position.x, playItem.position.y - playItem.contentSize.height * 0.9);
@@ -84,6 +89,7 @@
         
         // ボタンを押したときのアクション
         NSLog(@"RETURN TITLE");
+        [[SimpleAudioEngine sharedEngine] playEffect:@"return.wav"];
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[TitleLayer node] ]];
     }];
     returnItem.position = ccp(pictureBookItem.position.x, pictureBookItem.position.y - pictureBookItem.contentSize.height * 0.9);

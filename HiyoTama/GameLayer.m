@@ -125,6 +125,7 @@ enum {
         [self scheduleUpdate];
         [self schedule:@selector(timerPlay:)];
         NSLog(@"ゲーム開始！");
+        [[SimpleAudioEngine sharedEngine] playEffect:@"start.wav"];
         [chicken_ setGameMode];
     }];
     id delay = [CCDelayTime actionWithDuration:0.5];
@@ -140,6 +141,7 @@ enum {
     [self unschedule:@selector(timerPlay:)];
     [self unscheduleUpdate];
     NSLog(@"ゲーム終了！");
+    [[SimpleAudioEngine sharedEngine] playEffect:@"finish.wav"];
     
     // フィニッシュ画像
     CCSprite *endSprite = [CCSprite spriteWithFile:@"gameEnd.png"];
@@ -166,6 +168,7 @@ enum {
     id returnDelay = [CCDelayTime actionWithDuration:3.0+delayValue/2];
     id returnBlock = [CCCallBlock actionWithBlock:^{
         // メニュー画面に戻る
+        [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"titleBGM.mp3"];
         [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[MenuLayer node] ]];
     }];
     id sequence = [CCSequence actions:scaleTo, block, delay, tween, returnDelay, returnBlock, nil];
@@ -184,10 +187,6 @@ enum {
     GameData *gameData = [GameData getInstance];
     
     [scoreLabel_ setString:[NSString stringWithFormat:@"%dコ",[gameData getScore]]];
-    
-    if (chicken_.isTouch) {
-       NSLog(@"unkooo");
-    }
 }
 
 // タイマーを動かすメソッド

@@ -41,7 +41,10 @@
 	if( (self=[super init])) {
         // ゲームデータを読み込む
         NSLog(@"ここかああああ");
-        [GameData getInstance];
+        if ([[GameData getInstance] getVolume] == 0) {
+            [[GameData getInstance] setVolume:0];
+        }
+        [[SimpleAudioEngine sharedEngine] playEffect:@"kiran.mp3"];
 
 		// ask director for the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
