@@ -71,7 +71,7 @@
     [view_ addSubview:numLabel];
     
     // 名前
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bgView_.center.x + bgView_.image.size.width*0.08, bgView_.center.y - bgView_.image.size.height * 0.45, 100, 25)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(bgView_.center.x + bgView_.image.size.width*0.065, bgView_.center.y - bgView_.image.size.height * 0.45, 100, 25)];
     nameLabel.text = [hiyo getName];
     nameLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:25];
     nameLabel.textColor = [UIColor blackColor];

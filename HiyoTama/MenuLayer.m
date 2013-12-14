@@ -3,7 +3,7 @@
 //  HiyoTama
 //
 //  Created by 三浦　和真 on 2013/09/16.
-//  Copyright 2013年 三浦　和真. All rights reserved.
+//  Copyright 2013年 三浦　和真. All rights reserved.二
 //
 
 #import "MenuLayer.h"
@@ -63,7 +63,7 @@
         if ([gameData_ getStamina] >= [gameData_ getUseStaminaValue]) {
             NSLog(@"GAME PLAY");
             [[SimpleAudioEngine sharedEngine] playEffect:@"tap.wav"];
-            [[SimpleAudioEngine sharedEngine] playEffect:@"kokekoko.mp3"];
+            [[SimpleAudioEngine sharedEngine] playEffect:@"koke.mp3"];
             [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
             
             [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[GameLayer node] ]];

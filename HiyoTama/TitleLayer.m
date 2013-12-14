@@ -78,7 +78,7 @@
         [volumeItem_ setString:@"おと:OFF"];
     }
     volumeItem_.anchorPoint = ccp(0, 0.5);
-    volumeItem_.position = ccp(winSize.width/2 + winSize.height*0.5,volumeItem_.contentSize.height/2);
+    volumeItem_.position = ccp(winSize.width - volumeItem_.contentSize.width*0.7,volumeItem_.contentSize.height/2);
     volumeItem_.fontSize = 20;
     volumeItem_.fontName = @"Marker Felt";
     

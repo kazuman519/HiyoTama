@@ -179,6 +179,10 @@ enum {
     [egg moveRightAction:sprite_.position];
     [self addChild:egg z:OBJECT_EGG tag:OBJECT_EGG];
     [self.eggArray addObject:egg];
+    
+    id scaleTo1 = [CCScaleTo actionWithDuration:0.04 scale:scale_*1.13];
+    id scaleTo2 = [CCScaleTo actionWithDuration:0.04 scale:scale_];
+    [sprite_ runAction:[CCSequence actions:scaleTo1, scaleTo2, nil]];
 }
 
 // 卵からひよを返す
