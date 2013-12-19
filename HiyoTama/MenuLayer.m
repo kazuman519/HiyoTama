@@ -10,6 +10,7 @@
 #import "TitleLayer.h"
 #import "GameLayer.h"
 #import "PictureBookMenuLayer.h"
+#import "PlayHelpLayer.h"
 
 @implementation MenuLayer
 -(id)init{
@@ -62,6 +63,7 @@
         // 体力があればゲームスタート
         if ([gameData_ getStamina] >= [gameData_ getUseStaminaValue]) {
             NSLog(@"GAME PLAY");
+            [self surpriseAction];
             [[SimpleAudioEngine sharedEngine] playEffect:@"tap.wav"];
             [[SimpleAudioEngine sharedEngine] playEffect:@"koke.mp3"];
             [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
@@ -84,6 +86,23 @@
     }];
     pictureBookItem.position = ccp(playItem.position.x, playItem.position.y - playItem.contentSize.height * 0.9);
     
+    // 遊び方ボタン
+    CCSprite *playHelpSprite2 = [CCSprite spriteWithFile:@"playHelp.png"];
+    playHelpSprite2.color = ccGRAY;
+    CCMenuItemSprite *playHelpItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithFile:@"playHelp.png"] selectedSprite:playHelpSprite2 block:^(id sender) {
+        
+        // ボタンを押したときのアクション
+        NSLog(@"ASOBIKATA");
+        [[SimpleAudioEngine sharedEngine] playEffect:@"tap.wav"];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:0.5 scene:[PlayHelpLayer node] ]];
+    }];
+    playHelpItem.anchorPoint = ccp(0, 1.0);
+    playHelpItem.position = ccp(0,winSize_.height);
+    playHelpItem.scale = 0.8;
+    
+    id jump = [CCJumpBy actionWithDuration:20 position:ccp(0, 0) height:5 jumps:20];
+    [playHelpItem runAction:jump];
+    
     // 戻るボタン
     CCMenuItemSprite *returnItem = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithFile:@"returnTitleBtn1.png"] selectedSprite:[CCSprite spriteWithFile:@"returnTitleBtn2.png"] block:^(id sender) {
         
@@ -95,7 +114,7 @@
     returnItem.position = ccp(pictureBookItem.position.x, pictureBookItem.position.y - pictureBookItem.contentSize.height * 0.9);
     
     // メニュー
-    CCMenu *menu = [CCMenu menuWithItems:playItem, pictureBookItem, returnItem, nil];
+    CCMenu *menu = [CCMenu menuWithItems:playItem, pictureBookItem, playHelpItem, returnItem, nil];
     menu.position = ccp(0, 0);
     [self addChild:menu];
     
@@ -108,11 +127,11 @@
     else{
         chickenString = @"chicken.png";
     }
-    CCSprite *chickenSprite = [CCSprite spriteWithFile:chickenString];
-    chickenSprite.flipX = YES;
-    chickenSprite.scale = 1.3;
-    chickenSprite.position = ccp(winSize_.width * 0.2, winSize_.height * 0.25);
-    [self addChild:chickenSprite];
+    chickenSprite_ = [CCSprite spriteWithFile:chickenString];
+    chickenSprite_.flipX = YES;
+    chickenSprite_.scale = 1.3;
+    chickenSprite_.position = ccp(winSize_.width * 0.2, winSize_.height * 0.25);
+    [self addChild:chickenSprite_];
     
     [self schedule:@selector(updateStamina)];
 }
@@ -135,5 +154,17 @@
     id moveBy = [CCMoveBy actionWithDuration:0.2 position:ccp(0, winSize_.height*0.05)];
     id spawn = [CCSpawn actions:scaleBy, moveBy, nil];
     [label runAction:spawn];
+}
+
+// びっくりするアクション
+-(void)surpriseAction{
+    CCAnimation *animation = [CCAnimation animation];
+    [animation addSpriteFrameWithFilename:@"chicken_surprise.png"];
+    [animation addSpriteFrameWithFilename:@"chicken.png"];
+    
+    animation.delayPerUnit = 0.5;
+    animation.loops = 1;
+    CCAnimate* animate = [CCAnimate actionWithAnimation:animation];
+    [chickenSprite_ runAction:animate];
 }
 @end

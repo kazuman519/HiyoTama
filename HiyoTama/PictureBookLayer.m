@@ -73,7 +73,6 @@
     int kindSum = 0;
     for (NSNumber* hiyoNum in self.hiyoNumberArray){
         int hiyoSum = [gameData_ getHiyoSumAppointNumber:hiyoNum.intValue];
-        NSLog(@"num%@ sum%d",hiyoNum,hiyoSum);
         if (hiyoSum > 0) {
             kindSum++;
         }
@@ -138,7 +137,6 @@
         [hiyoImg drawInRect:CGRectMake(0, 0, sz.width, sz.height)];
         hiyoImg = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        NSLog(@"%f",winSize_.width*0.17);
         hiyoBtn.center = CGPointMake(winSize_.width/2 - winSize_.height*0.76 -hiyoImg.size.width/2 + winSize_.height*0.27 + winSize_.height*0.323*(i%4), -hiyoImg.size.height/2 + winSize_.height*0.35 + winSize_.height*0.33*(i/4));
         hiyoBtn.tag = num.intValue;
         [hiyoBtn setImage:hiyoImg forState:UIControlStateNormal];
@@ -176,7 +174,6 @@
     [detailsView setDetails:btn.tag];
     
     NSNumber *firstNum = [self.hiyoNumberArray objectAtIndex:0];
-    NSLog(@"%d",firstNum.intValue);
     int labelIndex =btn.tag - firstNum.intValue;
     UILabel *label = [self.labelArray objectAtIndex:labelIndex];
     label.text = @"";

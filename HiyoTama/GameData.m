@@ -365,7 +365,6 @@ static GameData* _gameDataInstance = nil;
 }
 -(int)getVolume{
     NSNumber *volumeNum = [gameDataDefaults_ objectForKey:volumeKey_];
-    NSLog(@"ぼりゅーむ%d",volumeNum.intValue);
     return volumeNum.intValue;
 }
 -(int)getStamina{

@@ -37,7 +37,6 @@ enum {
     return self;
 }
 
-
 -(void) onEnterTransitionDidFinish
 {
     // 忘れずにスーパークラスのonEnterをコールします
@@ -164,7 +163,6 @@ enum {
     }];
     id delay = [CCDelayTime actionWithDuration:0.5];
     id tween = [CCActionTween actionWithDuration:0.5 key:@"opacity" from:255 to:0];
-    NSLog(@"delaay%d",delayValue);
     id returnDelay = [CCDelayTime actionWithDuration:3.0+delayValue/2];
     id returnBlock = [CCCallBlock actionWithBlock:^{
         // メニュー画面に戻る
@@ -174,6 +172,11 @@ enum {
     id sequence = [CCSequence actions:scaleTo, block, delay, tween, returnDelay, returnBlock, nil];
     
     [endSprite runAction:sequence];
+    
+    id scaleTo1 = [CCScaleTo actionWithDuration:0.5 scale:2];
+    id tint = [CCTintTo actionWithDuration:0.5 red:100 green:100 blue:100];
+    id spawn = [CCSpawn actions:scaleTo1, tint, nil];
+    [scoreLabel_ runAction:spawn];
     
     // ハイスコアの更新
     NSLog(@"socre%d high%d",[gameData getScore],[gameData getHighScore]);
@@ -204,7 +207,7 @@ enum {
     if (chicken_.isTouch && isShowTouch_) {
         isShowTouch_ = NO;
         // にわとりがたっちされたらタッチをけす
-        id delay = [CCDelayTime actionWithDuration:0.2];
+        id delay = [CCDelayTime actionWithDuration:0.8];
         id block = [CCCallBlock actionWithBlock:^{
             [touchSprite_ stopAllActions];
             id scaleTo = [CCScaleTo actionWithDuration:0.4 scale:0];
@@ -213,5 +216,4 @@ enum {
         [self runAction:[CCSequence actions:delay, block, nil]];
     }
 }
-
 @end

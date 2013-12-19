@@ -11,6 +11,7 @@
 @implementation Chicken
 
 @synthesize isTouch = isTouch_;
+@synthesize isFever = isFever_;
 
 enum {
     OBJECT_NULL,
@@ -42,9 +43,10 @@ enum {
         for (int i = 0; i < self.probabilityArray.count; i++) {
             if (i > 21) {
                 // レア度3以上のひよの確率をあげる
+                int times = 6;
                 NSNumber *probability = [self.probabilityArray objectAtIndex:i];
                 NSNumber *lastPro = [self.probabilityArray objectAtIndex:i-1];
-                plusPro += (probability.floatValue - lastPro.floatValue)*3;
+                plusPro += (probability.floatValue - lastPro.floatValue)*times;
                 float feverPro = probability.floatValue + plusPro;
                 NSLog(@"i=%d  pro=%f fever=%f",i,probability.floatValue,feverPro);
                 [self.feverProArray addObject:[NSNumber numberWithFloat:feverPro]];
@@ -180,9 +182,11 @@ enum {
     [self addChild:egg z:OBJECT_EGG tag:OBJECT_EGG];
     [self.eggArray addObject:egg];
     
-    id scaleTo1 = [CCScaleTo actionWithDuration:0.04 scale:scale_*1.13];
-    id scaleTo2 = [CCScaleTo actionWithDuration:0.04 scale:scale_];
-    [sprite_ runAction:[CCSequence actions:scaleTo1, scaleTo2, nil]];
+    if (!isFever_) {
+        id scaleTo1 = [CCScaleTo actionWithDuration:0.04 scale:scale_*1.05];
+        id scaleTo2 = [CCScaleTo actionWithDuration:0.04 scale:scale_];
+        [sprite_ runAction:[CCSequence actions:scaleTo1, scaleTo2, nil]];
+    }
 }
 
 // 卵からひよを返す

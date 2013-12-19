@@ -34,6 +34,7 @@
 @property (nonatomic,retain) NSMutableArray* probabilityArray;
 @property (nonatomic,retain) NSMutableArray* feverProArray;
 @property BOOL isTouch;
+@property BOOL isFever;
 
 -(void)setGameMode;
 -(void)setResultMode;

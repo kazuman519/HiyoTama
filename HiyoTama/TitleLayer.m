@@ -87,11 +87,29 @@
     menu.position = ccp(0, 0);
     [self addChild:menu];
 }
+-(void) onEnter
+{
+	// CCTouchDispatcherに登録します（initメソッド内でコールしても機能しません。）
+	[[[CCDirector sharedDirector] touchDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+    
+    // 忘れずにスーパークラスのonEnterをコールします
+	[super onEnter];
+}
 -(void)onEnterTransitionDidFinish{
     [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"titleBGM.mp3"];
     [super onEnterTransitionDidFinish];
 }
 -(void)onExit{
+    [[[CCDirector sharedDirector] touchDispatcher] removeDelegate:self];
     [super onExit];
+}
+
+//---- タッチ処理 ----
+// タッチ開始
+-(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event{
+    BOOL isBlock = NO;
+    [[SimpleAudioEngine sharedEngine] playEffect:@"piyo.mp3"];
+    
+    return isBlock;
 }
 @end

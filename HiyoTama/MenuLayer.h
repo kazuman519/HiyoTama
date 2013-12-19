@@ -16,6 +16,8 @@
     GameData *gameData_;
     CCLabelTTF *staminaLabel_;
     CCLabelTTF *highScoreLabel_;
+    
+    CCSprite *chickenSprite_;
 }
 
 @end
